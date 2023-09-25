@@ -1,0 +1,30 @@
+{
+  "name": "mern",
+  "version": "1.0.0",
+  "description": "proyecto con el stack MERN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nheil3Dev/MERN-project.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "typescript",
+    "swagger",
+    "mongoose"
+  ],
+  "author": "Nheil3Dev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nheil3Dev/MERN-project/issues"
+  },
+  "homepage": "https://github.com/Nheil3Dev/MERN-project#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
