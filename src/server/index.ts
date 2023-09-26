@@ -14,6 +14,9 @@ export const app: Express = express()
 // Define SERVER to use /api and use rootRouter from index.ts in routes
 app.use('/api', server)
 
+// Static Server
+app.use(express.static('public'))
+
 // TODO: Mongoose Connection
 
 // Security Config
