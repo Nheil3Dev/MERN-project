@@ -5,7 +5,9 @@
 
 import express, { type Request, type Response } from 'express'
 import { LogInfo } from '../utils/logger'
+import { authRouter } from './AuthRouter'
 import { helloRouter } from './HelloRouter'
+import { userRouter } from './UserRouter'
 
 // Server instance
 export const server = express()
@@ -23,4 +25,6 @@ rootRouter.get('/', (req: Request, res: Response) => {
 // Redirections to Routers & Controllers
 server.use('/', rootRouter) // http://localhost:8000/api/
 server.use('/hello', helloRouter) // http://localhost:8000/api/hello
+server.use('/users', userRouter) // http://localhost:8000/api/users
+server.use('/auth', authRouter) // http://localhost:8000/api/auth
 // Add more routes to the app

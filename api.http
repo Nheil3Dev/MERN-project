@@ -5,3 +5,70 @@ GET http://localhost:8000/api/hello
 
 ###
 GET http://localhost:8000/api/hello?name=Claudio
+
+### Get All Users
+GET http://localhost:8000/api/users
+
+### Get User By Id
+GET http://localhost:8000/api/users?id=6515417eae34125456eab8ee
+
+### Delete User By Id
+DELETE http://localhost:8000/api/users?id=6516932f4b6ac95388e11701
+
+### Delete User By Id Without Id
+DELETE http://localhost:8000/api/users
+
+### Update User By Id
+PUT http://localhost:8000/api/users?id=6515cdd150c910bba2b8be3b
+Content-Type: application/json
+
+{
+    "name": "Lucia",
+    "email": "lucia@meloinvento.com",
+    "age": 40
+}
+
+### Register New User
+POST http://localhost:8000/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Lucia",
+    "email": "lucia@meloinvento.com",
+    "password": "123456",
+    "age": 38
+}
+
+### Login Succesfully
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "lucia@meloinvento.com",
+    "password": "123456"
+}
+
+### Login Fail
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "lucia@meloinvento.com",
+    "password": "12345"
+}
+
+### Obtain User Data  
+GET http://localhost:8000/api/auth/me?id=65195867ab03360348b2c7b5
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9pbnZlbnRvLmNvbSIsImlhdCI6MTY5NjE3OTM0NSwiZXhwIjoxNjk2MjY1NzQ1fQ.E9-225H_XLTWeIYqK_M1ccOWi2M_6Mu-qG9RD5l7FXc
+
+### Obtain User Data With Invalid Token
+GET http://localhost:8000/api/auth/me?id=65195867ab03360348b2c7b5
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9pbnZlbnRvLmNvbSIsImlhdCI6MTY5NjE3OTM0NSwiZXhwIjoxNjk2MjY1NzQ1fQ.E9-225H_XLTWeIYqK_M1ccOWi2M_6Mu-qG9RD5l7FX
+
+### Obtain User Data Without ID 
+GET http://localhost:8000/api/auth/me
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9pbnZlbnRvLmNvbSIsImlhdCI6MTY5NjE3OTM0NSwiZXhwIjoxNjk2MjY1NzQ1fQ.E9-225H_XLTWeIYqK_M1ccOWi2M_6Mu-qG9RD5l7FXc
+
+### Obtain User Data With Invalid ID (TODO)
+GET http://localhost:8000/api/auth/me?id=65195867ab03360348b25
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9pbnZlbnRvLmNvbSIsImlhdCI6MTY5NjE3OTM0NSwiZXhwIjoxNjk2MjY1NzQ1fQ.E9-225H_XLTWeIYqK_M1ccOWi2M_6Mu-qG9RD5l7FXc
