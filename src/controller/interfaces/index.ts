@@ -22,6 +22,12 @@ export interface AuthResponse extends BasicResponse {
   token: string
 }
 
+export interface UserResponse {
+  users: IUserWithId[]
+  totalPages: number
+  currentPage: number
+}
+
 export interface IAuth {
   email: string
   password: string
@@ -42,7 +48,7 @@ export interface IHelloController {
 
 export interface IUserController {
   // Read all users from DB || Find user by ID (ObjectID)
-  getUsers: (id?: string) => Promise<any>
+  getUsers: (page: number, limit: number, id?: string) => Promise<any>
   // Delete user by id
   deleteUser: (id?: string) => Promise<any>
   // Update user

@@ -1,4 +1,4 @@
-import { type IAuth, type IUser, type IUserWithId } from '@/controller/interfaces'
+import { type IAuth, type IUser, type IUserWithId, type UserResponse } from '@/controller/interfaces'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { LogError } from '../../utils/logger'
@@ -16,14 +16,32 @@ const secret = process.env.SECRETKEY ?? 'SECRETKEY'
 /**
  * Method to obtain all Users from Collection "Users" in Mongo Server
  */
-export const getAllUsers = async (): Promise<IUserWithId[] | undefined> => {
+export const getAllUsers = async (page: number, limit: number): Promise<UserResponse | undefined> => {
   try {
     const userModel = userEntity()
 
-    // Search all users
-    const allUsers = await userModel.find({})
+    const response: UserResponse = {
+      users: [],
+      totalPages: 1,
+      currentPage: page
+    }
 
-    return allUsers
+    // Search all users
+    await userModel.find({})
+      .select('name email age')
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .exec()
+      .then((users: IUserWithId[]) => {
+        response.users = users
+      })
+
+    // Count total documents in collection 'Users'
+    await userModel.countDocuments().then(totalUsers => {
+      response.totalPages = Math.ceil(totalUsers / limit)
+    })
+
+    return response
   } catch (error: any) {
     LogError(`[ORM ERROR]: Getting All Users: ${error}`)
   }
@@ -37,7 +55,7 @@ export const getUserById = async (id: string): Promise<IUserWithId | undefined |
     const userModel = userEntity()
 
     // Find user by id
-    return await userModel.findById(id)
+    return await userModel.findById(id).select('name email age').exec()
   } catch (error: any) {
     LogError(`[ORM ERROR]: Getting User By Id: ${error}`)
   }
@@ -100,7 +118,7 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
 
     // Check if user exits by unique email
     await userModel.findOne({ email: auth.email })
-      .then((user: IUserWithId) => {
+      .then((user: any) => {
         userFound = user
       })
       .catch(error => {

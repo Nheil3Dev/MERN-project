@@ -14,22 +14,18 @@ export class UserController implements IUserController {
    * @returns All user or user found by ID
    */
   @Get('/')
-  public async getUsers (@Query() id?: string): Promise<IUserWithId[] | IUserWithId | undefined | null> {
+  public async getUsers (@Query() page: number, @Query() limit: number, @Query() id?: string): Promise<IUserWithId[] | IUserWithId | undefined | null> {
     let response: any = {}
     if (id !== undefined) {
       LogSucces(`[/api/users] Get User By Id: ${id} Request`)
 
       response = await getUserById(id)
-      // Remove the password
-      response.password = ''
-      return response
     } else {
       LogSucces('[/api/users] Get All Users Request')
 
-      response = await getAllUsers()
-      response?.map((user: IUserWithId) => user.password = '')
-      return response
+      response = await getAllUsers(page, limit)
     }
+    return response
   }
 
   /**
@@ -65,7 +61,7 @@ export class UserController implements IUserController {
   }
 
   @Put('/')
-  public async updateUser (@Query() user: IUser, id?: string): Promise<any> {
+  public async updateUser (@Query() user: IUser, @Query() id?: string): Promise<any> {
     LogSucces(`[api/users] Modify User: ${JSON.stringify(user)}`)
 
     if (id === undefined) {

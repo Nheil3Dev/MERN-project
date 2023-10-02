@@ -23,11 +23,16 @@ userRouter.route('/')
     const id: any = req?.query?.id
     if (id !== undefined) LogInfo(`Query Param: ${id}`)
 
+    // Pagination
+    // No utilizar el nullish (??) ya que Number(undefined) = NaN y NaN ?? 1 = NaN
+    const page: number = Number(req?.query?.page) || 1
+    const limit: number = Number(req?.query?.limit) || 10
+
     // Controller Instance to execute method
     const controller: UserController = new UserController()
 
     // Obtain Response
-    const response: any = await controller.getUsers(id)
+    const response: any = await controller.getUsers(page, limit, id)
 
     // Send the response to the client
     return res.status(200).send(response)

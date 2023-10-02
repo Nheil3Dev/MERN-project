@@ -52,14 +52,6 @@ export class AuthController implements IAuthController {
         token: data.token,
         message: `Welcome, ${data.user.name}`
       }
-      // await loginUser(auth)
-      //   .then(r => {
-      //     LogSucces(`[/api/auth/login] Logged User: ${auth.email}`)
-      //     response = {
-      //       message: `User Logged In Successfuly: ${auth.email}`,
-      //       token: r.token // JWT generated for logged in user
-      //     }
-      //   })
     } else {
       LogWarning('[/api/auth/login] Login Needs Auth Entity')
       response = {
@@ -84,8 +76,6 @@ export class AuthController implements IAuthController {
     if (id) {
       LogSucces(`[/api/auth/me] Get User's Data By ID: ${id}`)
       response = await getUserById(id)
-      // Remove the password
-      response.password = ''
     }
     return response
   }

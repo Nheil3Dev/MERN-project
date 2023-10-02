@@ -44,7 +44,7 @@ POST http://localhost:8000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "lucia@meloinvento.com",
+    "email": "claudio@meloinvento.com",
     "password": "123456"
 }
 
@@ -73,3 +73,6 @@ X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9
 GET http://localhost:8000/api/auth/me?id=65195867ab03360348b25
 X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9pbnZlbnRvLmNvbSIsImlhdCI6MTY5NjE3OTM0NSwiZXhwIjoxNjk2MjY1NzQ1fQ.E9-225H_XLTWeIYqK_M1ccOWi2M_6Mu-qG9RD5l7FXc
 
+### Get All Users
+GET http://localhost:8000/api/auth/me?id=6519b67db882718397655448
+X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9pbnZlbnRvLmNvbSIsImlhdCI6MTY5NjIzMzcwMywiZXhwIjoxNjk2MzIwMTAzfQ.CiYu3KJnjF7ivf9BiV9r7WsAhqoJ0YmSkcuFi_ZmPqQ
