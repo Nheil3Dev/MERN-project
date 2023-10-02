@@ -72,3 +72,4 @@ X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9
 ### Obtain User Data With Invalid ID (TODO)
 GET http://localhost:8000/api/auth/me?id=65195867ab03360348b25
 X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2lhQG1lbG9pbnZlbnRvLmNvbSIsImlhdCI6MTY5NjE3OTM0NSwiZXhwIjoxNjk2MjY1NzQ1fQ.E9-225H_XLTWeIYqK_M1ccOWi2M_6Mu-qG9RD5l7FXc
+

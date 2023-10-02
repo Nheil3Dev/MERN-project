@@ -5,6 +5,10 @@ import { LogInfo } from '../utils/logger'
 
 // Body Parser to read BODY from requests
 import bodyParser from 'body-parser'
+
+// JWT Verifier Middleware
+import { verifyToken } from '../middlewares/verifyToken'
+
 const jsonParser = bodyParser.json()
 
 // Router from express
@@ -14,7 +18,7 @@ export const userRouter = express.Router()
 userRouter.route('/')
 
   // GET
-  .get(async (req: Request, res: Response) => {
+  .get(verifyToken, async (req: Request, res: Response) => {
     // Obtain a Query param
     const id: any = req?.query?.id
     if (id !== undefined) LogInfo(`Query Param: ${id}`)
@@ -30,7 +34,7 @@ userRouter.route('/')
   })
 
   // DELETE
-  .delete(async (req: Request, res: Response) => {
+  .delete(verifyToken, async (req: Request, res: Response) => {
     // Obtain a Query param
     const id: any = req?.query?.id
     if (id !== undefined) LogInfo(`Query Param: ${id}`)
@@ -46,7 +50,7 @@ userRouter.route('/')
   })
 
   // PUT
-  .put(jsonParser, async (req: Request, res: Response) => {
+  .put(verifyToken, jsonParser, async (req: Request, res: Response) => {
     // Obtain user from body
     const user: IUser = req.body
 
