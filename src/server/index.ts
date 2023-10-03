@@ -17,6 +17,14 @@ import { server } from '../routes'
 // Create Express App (server)
 export const app: Express = express()
 
+// Content Type Config:
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ extended: true, limit: '50mb' }))
+
+// Security Config
+app.use(helmet())
+app.use(cors())
+
 // Swagger Config and route
 app.use(
   '/docs',
@@ -38,14 +46,6 @@ app.use(express.static('public'))
 mongoose.connect('mongodb://127.0.0.1:27017/mernProject')
   .then(bd => { LogSucces('[DATA BASE]: Connection Done') })
   .catch(error => { LogError(`[DATA BASE]: Conection Error: ${error}`) })
-
-// Security Config
-app.use(helmet())
-app.use(cors())
-
-// Content Type Config:
-app.use(express.json({ limit: '50mb' }))
-app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 
 // Redirection Config
 // http://localhost:8000/ --> http://localhost:8000/api/
