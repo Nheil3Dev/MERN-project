@@ -7,6 +7,7 @@ import express, { type Request, type Response } from 'express'
 import { LogInfo } from '../utils/logger'
 import { authRouter } from './AuthRouter'
 import { helloRouter } from './HelloRouter'
+import { kataRouter } from './KataRouter'
 import { userRouter } from './UserRouter'
 
 // Server instance
@@ -27,4 +28,5 @@ server.use('/', rootRouter) // http://localhost:8000/api/
 server.use('/hello', helloRouter) // http://localhost:8000/api/hello
 server.use('/users', userRouter) // http://localhost:8000/api/users
 server.use('/auth', authRouter) // http://localhost:8000/api/auth
+server.use('/katas', kataRouter) // http://localhost:8000/api/katas
 // Add more routes to the app

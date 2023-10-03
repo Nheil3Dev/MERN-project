@@ -71,3 +71,25 @@ userRouter.route('/')
     // Send response to the client
     res.status(response.status).send(response.message)
   })
+
+userRouter.route('/katas')
+  .get(verifyToken, async (req: Request, res: Response) => {
+    //  Obtain id from query params
+    const id: any = req?.query?.id
+    const page: number = Number(req.query.page) || 1
+    const limit: number = Number(req.query.limit) || 10
+
+    if (id) {
+      // Controller instance
+      const controller: UserController = new UserController()
+
+      // Obtain response
+      const response = await controller.getKatas(page, limit, id)
+
+      return res.status(200).send(response)
+    } else {
+      return res.status(400).send({
+        message: 'User Id Needed'
+      })
+    }
+  })

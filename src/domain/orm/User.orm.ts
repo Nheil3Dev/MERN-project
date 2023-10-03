@@ -2,10 +2,12 @@ import { type IAuth, type IUser, type IUserWithId, type UserResponse } from '@/c
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { LogError } from '../../utils/logger'
+import { kataEntity } from '../entities/Kata.entity'
 import { userEntity } from '../entities/User.entity'
 
 // Enviroment variables
 import dotenv from 'dotenv'
+import { type IKata } from '../interfaces/IKata.interface'
 // Configuration of enviroment variables
 dotenv.config()
 // Obtain secret key to generate JWT
@@ -28,7 +30,7 @@ export const getAllUsers = async (page: number, limit: number): Promise<UserResp
 
     // Search all users
     await userModel.find({})
-      .select('name email age')
+      .select('name email age katas')
       .limit(limit)
       .skip((page - 1) * limit)
       .exec()
@@ -55,7 +57,7 @@ export const getUserById = async (id: string): Promise<IUserWithId | undefined |
     const userModel = userEntity()
 
     // Find user by id
-    return await userModel.findById(id).select('name email age').exec()
+    return await userModel.findById(id).select('name email age katas').exec()
   } catch (error: any) {
     LogError(`[ORM ERROR]: Getting User By Id: ${error}`)
   }
@@ -70,18 +72,6 @@ export const deleteUserById = async (id: string): Promise<any | undefined> => {
     return await userModel.deleteOne({ _id: id })
   } catch (error: any) {
     LogError(`[ORM ERROR]: Deleting User By Id: ${error}`)
-  }
-}
-
-// - Create New User
-export const createUser = async (user: IUser): Promise<any> => {
-  try {
-    const userModel = userEntity()
-
-    // Create new User
-    return await userModel.create(user)
-  } catch (error: any) {
-    LogError(`[ORM ERROR]: Creating New User: ${error}`)
   }
 }
 
@@ -152,4 +142,37 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
 // Logout User
 export const logoutUser = async (): Promise<any | undefined> => {
 
+}
+
+// Get All Katas From User
+export const getKatasFromUser = async (page: number, limit: number, id: string): Promise<any> => {
+  try {
+    const userModel = userEntity()
+    const kataModel = kataEntity()
+
+    const response: any = {
+      user: {},
+      katas: []
+    }
+
+    await userModel.findById(id)
+      .then(async (user: any) => {
+        response.user.name = user.name
+        response.user.email = user.email
+        await kataModel.find({ _id: { $in: user.katas } })
+          .then((katas: IKata[]) => {
+            response.katas = katas
+          })
+          .catch(err => {
+            LogError(`[ORM ERROR] Obtaining Katas: ${err}`)
+          })
+      })
+      .catch(err => {
+        LogError(`[ORM ERROR] Obtaining User: ${err}`)
+      })
+
+    return response
+  } catch (error: any) {
+    LogError(`[ORM ERROR]: Getting All Katas From User: ${error}`)
+  }
 }

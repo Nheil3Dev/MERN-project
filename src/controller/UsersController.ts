@@ -1,9 +1,9 @@
 import { Delete, Get, Put, Query, Route, Tags } from 'tsoa'
 import { LogSucces, LogWarning } from '../utils/logger'
-import { type IUser, type IUserController, type IUserWithId } from './interfaces'
+import { type IUser, type IUserController, type IUserWithId, type StatusResponse, type UserResponse } from './interfaces'
 
 // ORM - Users Collection
-import { deleteUserById, getAllUsers, getUserById, updateUserById } from '../domain/orm/User.orm'
+import { deleteUserById, getAllUsers, getKatasFromUser, getUserById, updateUserById } from '../domain/orm/User.orm'
 
 @Route('/api/users')
 @Tags('UserController')
@@ -14,9 +14,9 @@ export class UserController implements IUserController {
    * @returns All user or user found by ID
    */
   @Get('/')
-  public async getUsers (@Query() page: number, @Query() limit: number, @Query() id?: string): Promise<IUserWithId[] | IUserWithId | undefined | null> {
+  public async getUsers (@Query() page: number, @Query() limit: number, @Query() id?: string): Promise<UserResponse | IUserWithId> {
     let response: any = {}
-    if (id !== undefined) {
+    if (id) {
       LogSucces(`[/api/users] Get User By Id: ${id} Request`)
 
       response = await getUserById(id)
@@ -34,7 +34,7 @@ export class UserController implements IUserController {
    * @returns message informing if deletion was correct
    */
   @Delete('/')
-  public async deleteUser (@Query() id?: string): Promise<any> {
+  public async deleteUser (@Query() id?: string): Promise<StatusResponse> {
     if (id !== undefined) {
       LogSucces(`[/api/users] Delete User By Id: ${id} Request`)
 
@@ -61,7 +61,7 @@ export class UserController implements IUserController {
   }
 
   @Put('/')
-  public async updateUser (@Query() user: IUser, @Query() id?: string): Promise<any> {
+  public async updateUser (@Query() user: IUser, @Query() id?: string): Promise<StatusResponse> {
     LogSucces(`[api/users] Modify User: ${JSON.stringify(user)}`)
 
     if (id === undefined) {
@@ -83,5 +83,12 @@ export class UserController implements IUserController {
         message: `No changes in request for user with id: ${id}`
       }
     }
+  }
+
+  @Get('/katas')
+  public async getKatas (page: number, limit: number, id: string): Promise<any> {
+    LogSucces(`[/api/users/katas] Get Katas By User Id: ${id}`)
+
+    return await getKatasFromUser(page, limit, id)
   }
 }

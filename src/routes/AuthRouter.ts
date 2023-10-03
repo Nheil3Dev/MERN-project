@@ -24,7 +24,7 @@ authRouter.route('/register')
       // Obtain the password in request and cypher
       const hashedPassword = bcrypt.hashSync(password, 8) ?? ''
 
-      const newUser: IUser = { name, email, age, password: hashedPassword }
+      const newUser: IUser = { name, email, age, password: hashedPassword, katas: [] }
 
       // Controller instance to execute method
       const controller: AuthController = new AuthController()

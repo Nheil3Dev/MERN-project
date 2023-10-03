@@ -45,18 +45,20 @@ export class AuthController implements IAuthController {
   public async loginUser (@Query() auth: IAuth): Promise<AuthResponse | ErrorResponse> {
     let response: AuthResponse | ErrorResponse | undefined
 
-    if (auth) {
-      LogSucces(`[/api/auth/login] Auth User: ${JSON.stringify(auth)}`)
-      const data = await loginUser(auth)
+    LogSucces(`[/api/auth/login] Auth User: ${JSON.stringify(auth)}`)
+
+    const data = await loginUser(auth)
+
+    if (data?.token) {
       response = {
         token: data.token,
         message: `Welcome, ${data.user.name}`
       }
     } else {
-      LogWarning('[/api/auth/login] Login Needs Auth Entity')
+      LogWarning('[/api/auth/login] Login With Invalid Auth')
       response = {
         message: 'You must be provide a valid email & password to login',
-        error: 'Email & password are needed'
+        error: 'Invalid email or password'
       }
     }
     return response

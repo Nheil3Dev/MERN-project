@@ -1,4 +1,5 @@
 import type mongoose from 'mongoose'
+import { type IKata } from '../../domain/interfaces/IKata.interface'
 
 /**
  * Basic JSON response for Controllers
@@ -36,6 +37,7 @@ export interface IAuth {
 export interface IUser extends IAuth {
   name: string
   age: number
+  katas: IKata[]
 }
 
 export interface IUserWithId extends IUser {
@@ -49,6 +51,8 @@ export interface IHelloController {
 export interface IUserController {
   // Read all users from DB || Find user by ID (ObjectID)
   getUsers: (page: number, limit: number, id?: string) => Promise<any>
+  // Get Katas of user
+  getKatas: (page: number, limit: number, id: string) => Promise<any>
   // Delete user by id
   deleteUser: (id?: string) => Promise<any>
   // Update user
@@ -62,4 +66,15 @@ export interface IAuthController {
   loginUser: (auth: IAuth) => Promise<any>
   // Logout user
   logoutUser: () => Promise<any>
+}
+
+export interface IKataController {
+  // Read all users from DB || Find user by ID (ObjectID)
+  getKatas: (page: number, limit: number, id?: string, userId?: string) => Promise<any>
+  // Delete user by id
+  deleteKata: (id?: string) => Promise<any>
+  // Update user
+  updateKata: (kata: IKata, id: string) => Promise<any>
+  // Create new kata
+  createKata: (kata: IKata) => Promise<any>
 }
